@@ -1,16 +1,54 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
+
+const isProd = process.env.NODE_ENV === 'production';
+const workspaceRoot = join(__dirname, '../..');
+
+const lazyNestImports = [
+  '@nestjs/microservices',
+  '@nestjs/microservices/microservices-module',
+  '@nestjs/websockets',
+  '@nestjs/websockets/socket-module',
+  '@nestjs/platform-socket.io',
+];
+
+function lazyImportsWebpackPlugin() {
+  return new webpack.IgnorePlugin({
+    checkResource(resource) {
+      if (!lazyNestImports.some((pkg) => resource.startsWith(pkg))) {
+        return false;
+      }
+
+      try {
+        require.resolve(resource, { paths: [workspaceRoot] });
+        return false;
+      } catch {
+        return true;
+      }
+    },
+  });
+}
 
 module.exports = {
   output: {
     path: join(__dirname, 'dist'),
     clean: true,
-    ...(process.env.NODE_ENV !== 'production' && {
+    ...(!isProd && {
       devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     }),
   },
-  externals: [nodeExternals()],
+  ignoreWarnings: [
+    /Failed to parse source map/,
+    /Critical dependency: the request of a dependency is an expression/,
+    /Module not found: Error: "\." is not exported/,
+  ],
+  externals: [
+    nodeExternals({
+      modulesDir: join(workspaceRoot, 'node_modules'),
+    }),
+  ],
   resolve: {
     alias: {
       'class-transformer/storage':
@@ -18,6 +56,7 @@ module.exports = {
     },
   },
   plugins: [
+    lazyImportsWebpackPlugin(),
     new NxAppWebpackPlugin({
       target: 'node',
       compiler: 'tsc',
@@ -26,9 +65,10 @@ module.exports = {
       assets: ['./src/assets'],
       optimization: false,
       outputHashing: 'none',
-      generatePackageJson: process.env.NODE_ENV === 'production',
-      sourceMap: true,
+      generatePackageJson: isProd,
+      sourceMap: !isProd,
       externalDependencies: 'all',
+      mergeExternals: true,
     }),
   ],
 };
