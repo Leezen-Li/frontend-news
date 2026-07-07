@@ -6,7 +6,7 @@ Nx monorepo for the **News** frontend. Package manager: [Bun](https://bun.sh).
 
 ## Workspace layout
 
-```
+```text
 apps/
   frontend/          # React + Rsbuild web app (Nx project: @org/frontend)
   frontend-e2e/      # Playwright E2E tests (@org/frontend-e2e)

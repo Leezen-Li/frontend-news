@@ -6,7 +6,7 @@
 
 ## 工作区结构
 
-```
+```text
 apps/
   frontend/          # React + Rsbuild 前端应用（Nx 项目：@org/frontend）
   frontend-e2e/      # Playwright E2E 测试（@org/frontend-e2e）
