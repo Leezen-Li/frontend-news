@@ -4,16 +4,30 @@
     ".agents/**",
     ".github/skills/**",
     ".opencode/**",
-    "apps/frontend/src/styles.d.ts"
+    "apps/frontend/src/styles.d.ts",
+    "apps/backend/webpack.config.js",
+    "apps/backend/webpack-hmr.config.js"
   ],
   "ignoreDependencies": [
     "@commitlint/cli",
     "@commitlint/config-conventional",
+    "@nestjs/schematics",
+    "@nestjs/testing",
     "@nx/devkit",
+    "@nx/nest",
+    "@nx/node",
+    "@nx/web",
+    "@nx/webpack",
     "cspell",
     "knip",
     "lefthook",
-    "prettier"
+    "prettier",
+    "run-script-webpack-plugin",
+    "ts-loader",
+    "webpack",
+    "webpack-cli",
+    "webpack-dev-server",
+    "webpack-node-externals"
   ],
   "workspaces": {
     "apps/frontend": {
@@ -26,6 +40,11 @@
     "apps/frontend-e2e": {
       "entry": ["playwright.config.mts", "src/**/*.spec.ts"],
       "ignoreDependencies": ["@playwright/test"]
+    },
+    "apps/backend": {
+      "entry": ["src/main.ts"],
+      "webpack": false,
+      "ignoreDependencies": ["@nestjs/testing", "tslib"]
     }
   }
 }
