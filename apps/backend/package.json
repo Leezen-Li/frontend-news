@@ -1,0 +1,111 @@
+{
+  "name": "@org/backend",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "name": "@org/backend",
+    "targets": {
+      "build": {
+        "executor": "nx:run-commands",
+        "options": {
+          "command": "webpack-cli build --config webpack.config.js",
+          "env": {
+            "NODE_ENV": "production"
+          },
+          "cwd": "apps/backend"
+        },
+        "configurations": {
+          "development": {
+            "command": "webpack-cli build --config webpack.config.js",
+            "env": {
+              "NODE_ENV": "development"
+            }
+          },
+          "production": {
+            "command": "webpack-cli build --config webpack.config.js",
+            "env": {
+              "NODE_ENV": "production"
+            }
+          }
+        }
+      },
+      "prune-lockfile": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": true,
+        "executor": "@nx/js:prune-lockfile",
+        "outputs": [
+          "{workspaceRoot}/apps/backend/dist/package.json",
+          "{workspaceRoot}/apps/backend/dist/bun.lock"
+        ],
+        "options": {
+          "buildTarget": "build"
+        }
+      },
+      "copy-workspace-modules": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": true,
+        "outputs": [
+          "{workspaceRoot}/apps/backend/dist/workspace_modules"
+        ],
+        "executor": "@nx/js:copy-workspace-modules",
+        "options": {
+          "buildTarget": "build"
+        }
+      },
+      "prune": {
+        "dependsOn": [
+          "prune-lockfile",
+          "copy-workspace-modules"
+        ],
+        "executor": "nx:noop"
+      },
+      "serve": {
+        "continuous": true,
+        "executor": "nx:run-commands",
+        "defaultConfiguration": "development",
+        "options": {
+          "cwd": "apps/backend",
+          "command": "webpack-cli build --config webpack-hmr.config.js --watch",
+          "env": {
+            "NODE_ENV": "development"
+          }
+        },
+        "configurations": {
+          "development": {
+            "command": "webpack-cli build --config webpack-hmr.config.js --watch",
+            "env": {
+              "NODE_ENV": "development"
+            }
+          },
+          "production": {
+            "dependsOn": [
+              "build"
+            ],
+            "command": "node dist/main.js",
+            "env": {
+              "NODE_ENV": "production"
+            }
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.0",
+    "@nestjs/core": "^11.0.0",
+    "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.4.5",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
+    "reflect-metadata": "^0.2.0",
+    "rxjs": "^7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@nestjs/testing": "^11.0.0"
+  }
+}

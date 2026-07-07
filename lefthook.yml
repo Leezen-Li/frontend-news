@@ -6,7 +6,7 @@ commit-msg:
 pre-push:
   commands:
     build:
-      run: bun nx run-many -t build -p @org/frontend
+      run: bun nx run-many -t build -p @org/frontend,@org/backend
 
 pre-commit:
   parallel: true
@@ -19,7 +19,7 @@ pre-commit:
       stage_fixed: true
     nx-verify:
       priority: 2
-      run: bun nx sync:check && bun nx run-many -t typecheck -p @org/frontend --parallel=2
+      run: bun nx sync:check && bun nx run-many -t typecheck -p @org/frontend,@org/backend --parallel=2
     cspell:
       priority: 2
       glob: '*.{ts,tsx,js,mjs,cjs,md,json,yml,yaml}'

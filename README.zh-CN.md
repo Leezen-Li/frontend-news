@@ -1,6 +1,6 @@
 # News
 
-**News** 前端的 Nx monorepo。包管理器：[Bun](https://bun.sh)。
+**News** 的 Nx monorepo。包管理器：[Bun](https://bun.sh)。
 
 [English](README.md)
 
@@ -10,6 +10,7 @@
 apps/
   frontend/          # React + Rsbuild 前端应用（Nx 项目：@org/frontend）
   frontend-e2e/      # Playwright E2E 测试（@org/frontend-e2e）
+  backend/           # NestJS API（Nx 项目：@org/backend）
 packages/            # 共享库（预留）
 ```
 
@@ -27,7 +28,7 @@ bun install
 `bun install` 会通过 `prepare` 脚本自动安装 [lefthook](https://github.com/evilmartians/lefthook) Git hooks：
 
 - **pre-commit**：Prettier 格式化、`bun verify`（sync + typecheck）、cspell 拼写检查、knip 死代码检测
-- **pre-push**：`@org/frontend` 生产构建
+- **pre-push**：`@org/frontend` 与 `@org/backend` 生产构建
 - **commit-msg**：commitlint（Conventional Commits 规范）
 
 ## 常用命令
@@ -50,6 +51,16 @@ bun install
 | E2E 测试     | `bun nx e2e @org/frontend-e2e`    |
 
 开发服务默认地址：[http://localhost:4200](http://localhost:4200)
+
+### 后端（@org/backend）
+
+| 任务            | 命令                        |
+| --------------- | --------------------------- |
+| 开发服务（HMR） | `bun nx serve @org/backend` |
+| 生产构建        | `bun nx build @org/backend` |
+| 类型检查        | `bun typecheck`             |
+
+API 默认地址：[http://localhost:3000/api](http://localhost:3000/api)。Swagger UI：[http://localhost:3000/docs](http://localhost:3000/docs)。
 
 ### 构建分析（Rsdoctor）
 
@@ -77,7 +88,7 @@ bun nx sync                                # 同步 TypeScript 项目引用
 
 ## 提交规范
 
-提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/)（`commit-msg` hook 由 commitlint 校验）。常用 scope：`frontend`、`ci`、`deps`、`nx`。
+提交信息遵循 [Conventional Commits](https://www.conventionalcommits.org/)（`commit-msg` hook 由 commitlint 校验）。常用 scope：`frontend`、`backend`、`ci`、`deps`、`nx`。
 
 校验草稿提交信息：
 

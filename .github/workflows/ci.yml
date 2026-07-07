@@ -24,7 +24,7 @@ jobs:
 
       - run: bun nx format:check --base=origin/main
       - run: bun nx sync:check
-      - run: bun nx run-many -t typecheck build -p @org/frontend --parallel=2
+      - run: bun nx run-many -t typecheck build -p @org/frontend,@org/backend --parallel=2
 
       - run: bunx playwright install --with-deps chromium
       - run: bun nx e2e @org/frontend-e2e -- --project=chromium

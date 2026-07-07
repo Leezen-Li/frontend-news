@@ -1,6 +1,6 @@
 # News
 
-Nx monorepo for the **News** frontend. Package manager: [Bun](https://bun.sh).
+Nx monorepo for **News**. Package manager: [Bun](https://bun.sh).
 
 [中文文档](README.zh-CN.md)
 
@@ -10,6 +10,7 @@ Nx monorepo for the **News** frontend. Package manager: [Bun](https://bun.sh).
 apps/
   frontend/          # React + Rsbuild web app (Nx project: @org/frontend)
   frontend-e2e/      # Playwright E2E tests (@org/frontend-e2e)
+  backend/           # NestJS API (Nx project: @org/backend)
 packages/            # Shared libraries (reserved)
 ```
 
@@ -27,7 +28,7 @@ bun install
 Git hooks install automatically via `bun prepare` → [lefthook](https://github.com/evilmartians/lefthook):
 
 - **pre-commit**: Prettier, `bun verify` (sync + typecheck), cspell, knip
-- **pre-push**: production build for `@org/frontend`
+- **pre-push**: production build for `@org/frontend` and `@org/backend`
 - **commit-msg**: commitlint (Conventional Commits)
 
 ## Common commands
@@ -50,6 +51,16 @@ Run from the repository root. Prefer `bun nx` over calling app scripts directly.
 | E2E tests        | `bun nx e2e @org/frontend-e2e`    |
 
 Dev server runs at [http://localhost:4200](http://localhost:4200) by default.
+
+### Backend (@org/backend)
+
+| Task             | Command                     |
+| ---------------- | --------------------------- |
+| Dev server (HMR) | `bun nx serve @org/backend` |
+| Production build | `bun nx build @org/backend` |
+| Typecheck        | `bun typecheck`             |
+
+API runs at [http://localhost:3000/api](http://localhost:3000/api) by default. Swagger UI: [http://localhost:3000/docs](http://localhost:3000/docs).
 
 ### Build analysis (Rsdoctor)
 
@@ -77,7 +88,7 @@ bun nx sync                                # sync TypeScript project references
 
 ## Commits
 
-Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (enforced by commitlint on `commit-msg`). Common scopes: `frontend`, `ci`, `deps`, `nx`.
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (enforced by commitlint on `commit-msg`). Common scopes: `frontend`, `backend`, `ci`, `deps`, `nx`.
 
 Validate a draft message:
 

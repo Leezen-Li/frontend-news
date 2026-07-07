@@ -18,4 +18,11 @@ playwright
 typecheck
 prettier
 cspell
+nestjs
+swagger
+hmr
+webpack
+validator
+transformer
 opencode
+cssmodule
