@@ -45,4 +45,7 @@ async function bootstrap() {
   return app;
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+  Logger.error('Failed to start application', error);
+  process.exit(1);
+});
