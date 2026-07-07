@@ -1,0 +1,21 @@
+# Project Words
+commitlint
+knip
+lefthook
+nx
+monorepo
+rsbuild
+rsdoctor
+rspack
+lefthook
+bun
+bunx
+tsx
+jsx
+mjs
+cjs
+playwright
+typecheck
+prettier
+cspell
+opencode

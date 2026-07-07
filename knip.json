@@ -1,0 +1,31 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignore": [
+    ".agents/**",
+    ".github/skills/**",
+    ".opencode/**",
+    "apps/frontend/src/styles.d.ts"
+  ],
+  "ignoreDependencies": [
+    "@commitlint/cli",
+    "@commitlint/config-conventional",
+    "@nx/devkit",
+    "cspell",
+    "knip",
+    "lefthook",
+    "prettier"
+  ],
+  "workspaces": {
+    "apps/frontend": {
+      "ignoreDependencies": ["@rsdoctor/rspack-plugin", "cross-env"],
+      "ignoreExportsUsedInFile": true,
+      "ignoreIssues": {
+        "src/app/**": ["exports", "duplicates"]
+      }
+    },
+    "apps/frontend-e2e": {
+      "entry": ["playwright.config.mts", "src/**/*.spec.ts"],
+      "ignoreDependencies": ["@playwright/test"]
+    }
+  }
+}
